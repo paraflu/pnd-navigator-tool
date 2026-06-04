@@ -75,6 +75,8 @@ Developed by [paraflu](https://github.com/paraflu)
 
 Built entirely with AI assistance using vibe-coded workflows.
 
+Patch information sourced from [this video](https://www.youtube.com/watch?v=2d6uuf4KreQ).
+
 ---
 
 **Live Tool**: [paraflu.github.io/pnd-navigator-tool](https://paraflu.github.io/pnd-navigator-tool/)
