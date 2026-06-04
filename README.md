@@ -50,7 +50,7 @@ This patch is designed for specific Renault GPS navigation systems. Verify compa
 
 ## Disclaimer
 
-⚠️ **Use at your own risk.** This tool modifies executable files. The author assumes no responsibility for any damage, direct or indirect, resulting from its use. Always:
+⚠️ **Use at your own risk.** This tool modifies executable files. The author is not affiliated with Renault in any way and assumes no responsibility for any damage, direct or indirect, resulting from its use. Always:
 - Keep a backup of your original file
 - Verify your device model compatibility
 - Understand that modifications may void warranties
