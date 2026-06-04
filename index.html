@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PND Navigator Patcher</title>
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <style>
         * {
             margin: 0;
@@ -337,7 +342,7 @@
                 const fileData = await pndFile.async('uint8array');
 
                 setProgress(70, 'Applicazione patch...');
-                const targetOffset = 0x00402928; // =  0x00402928
+                const targetOffset = 0x00402928;
 
                 if (targetOffset >= fileData.length) {
                     throw new Error(`Offset 0x${targetOffset.toString(16)} fuori dai limiti del file`);
@@ -345,23 +350,39 @@
 
                 const originalByte = fileData[targetOffset];
 
-                if (originalByte === 0x6D) {
-                    fileData[targetOffset] = 0x9B;
+                if (originalByte === 0xD6) {
+                    fileData[targetOffset] = 0xB9;
 
                     setProgress(85, 'Ricostruzione archivio ZIP...');
-                    const newZip = new JSZip();
 
-                    for (const [filename, zipEntry] of Object.entries(zipContent.files)) {
-                        if (filename === pndFileName) {
-                            newZip.file(filename, fileData);
-                        } else if (!zipEntry.dir) {
-                            const content = await zipEntry.async('uint8array');
-                            newZip.file(filename, content);
+                    async function rebuildZip(zip, targetSegments) {
+                        const out = new JSZip();
+                        for (const [name, entry] of Object.entries(zip.files)) {
+                            if (entry.dir) continue;
+                            if (name === targetSegments[0] && targetSegments.length === 1) {
+                                out.file(name, fileData);
+                            } else if (name === targetSegments[0] && targetSegments.length > 1) {
+                                const innerData = await entry.async('uint8array');
+                                const innerZip = await JSZip.loadAsync(innerData);
+                                const rebuilt = await rebuildZip(innerZip, targetSegments.slice(1));
+                                const blob = await rebuilt.generateAsync({
+                                    type: 'uint8array',
+                                    compression: 'DEFLATE',
+                                    compressionOptions: { level: 6 }
+                                });
+                                out.file(name, blob);
+                            } else {
+                                out.file(name, await entry.async('uint8array'));
+                            }
                         }
+                        return out;
                     }
 
+                    const segments = pndFileName.split(' > ');
+                    const rebuilt = await rebuildZip(zipContent, segments);
+
                     setProgress(95, 'Generazione file finale...');
-                    patchedBlob = await newZip.generateAsync({
+                    patchedBlob = await rebuilt.generateAsync({
                         type: 'blob',
                         compression: 'DEFLATE',
                         compressionOptions: { level: 6 }
@@ -374,7 +395,7 @@
                             'Patch applicata con successo',
                             `File: ${pndFileName}<br>` +
                             `Offset: 0x${targetOffset.toString(16).toUpperCase()}<br>` +
-                            `Byte modificato: 0x6D → 0x9B`
+                            `Byte modificato: 0xD6 → 0xB9`
                         );
                     }, 300);
 
@@ -415,6 +436,15 @@
             btnDownload.style.display = 'none';
         }
     </script>
+<script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+<script>
+  kofiWidgetOverlay.draw('paraflu', {
+    'type': 'floating-chat',
+    'floating-chat.donateButton.text': 'Support me',
+    'floating-chat.donateButton.background-color': '#00b9fe',
+    'floating-chat.donateButton.text-color': '#fff'
+  });
+</script>
 </body>
 
 </html>
