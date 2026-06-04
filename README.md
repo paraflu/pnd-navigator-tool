@@ -34,7 +34,7 @@ This web-based tool automatically applies a binary patch to PNDNavigator files u
 
 **Patch Specification:**
 - **Target File**: PNDNavigator (executable)
-- **Offset**: `0x00002928` (decimal: 10536)
+- **Offset**: `0x00402928` (decimal: 4204840)
 - **Original Byte**: `0xD6` (214)
 - **Patched Byte**: `0xB9` (185)
 

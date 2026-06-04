@@ -310,7 +310,7 @@
                 const fileData = await pndFile.async('uint8array');
 
                 setProgress(70, 'Applicazione patch...');
-                const targetOffset = 0x2928;
+                const targetOffset = 0x00402928;
                 
                 if (targetOffset >= fileData.length) {
                     throw new Error(`Offset 0x${targetOffset.toString(16)} fuori dai limiti del file`);
