@@ -72,6 +72,8 @@ MIT License - See LICENSE file for details
 
 Developed by [paraflu](https://github.com/paraflu)
 
+Built entirely with AI assistance using vibe-coded workflows.
+
 ---
 
 **Live Tool**: [paraflu.github.io/pnd-navigator-tool](https://paraflu.github.io/pnd-navigator-tool/)
