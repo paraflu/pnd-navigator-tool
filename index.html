@@ -3,171 +3,368 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strumento Modifica File PNDNavigator</title>
+    <title>PND Navigator Patcher</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
-            background-color: #f5f5f5;
         }
         .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
         }
         h1 {
-            color: #2c3e50;
+            color: #2d3748;
+            font-size: 28px;
+            margin-bottom: 10px;
             text-align: center;
         }
-        .step {
-            background-color: #f9f9f9;
-            padding: 15px;
-            margin: 15px 0;
-            border-left: 4px solid #3498db;
-            border-radius: 4px;
+        .subtitle {
+            color: #718096;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
         }
-        .important {
-            border-left: 4px solid #e74c3c;
-            background-color: #fdedec;
-        }
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
+        .drop-zone {
+            border: 3px dashed #cbd5e0;
+            border-radius: 12px;
+            padding: 60px 20px;
+            text-align: center;
             cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f7fafc;
+        }
+        .drop-zone:hover {
+            border-color: #667eea;
+            background: #edf2f7;
+        }
+        .drop-zone.dragover {
+            border-color: #667eea;
+            background: #e6fffa;
+            transform: scale(1.02);
+        }
+        .drop-zone-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        .drop-zone-text {
+            color: #4a5568;
             font-size: 16px;
+            margin-bottom: 8px;
         }
-        button:hover {
-            background-color: #2980b9;
-        }
-        button:disabled {
-            background-color: #bdc3c7;
-            cursor: not-allowed;
-        }
-        #fileOutput {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f5f5f5;
-            border-radius: 4px;
-            white-space: pre-wrap;
-            font-family: monospace;
+        .drop-zone-hint {
+            color: #a0aec0;
+            font-size: 13px;
         }
         input[type="file"] {
-            margin: 10px 0;
+            display: none;
+        }
+        .progress {
+            margin-top: 30px;
+            display: none;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .progress-text {
+            margin-top: 12px;
+            color: #4a5568;
+            font-size: 14px;
+            text-align: center;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 12px;
+            display: none;
+        }
+        .result.success {
+            background: #c6f6d5;
+            border: 2px solid #48bb78;
+        }
+        .result.error {
+            background: #fed7d7;
+            border: 2px solid #f56565;
+        }
+        .result-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        .result-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-align: center;
+            color: #2d3748;
+        }
+        .result-message {
+            color: #4a5568;
+            font-size: 14px;
+            text-align: center;
+            line-height: 1.6;
+        }
+        .btn-download {
+            display: block;
+            width: 100%;
+            margin-top: 16px;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .btn-download:hover {
+            transform: translateY(-2px);
+        }
+        .btn-reset {
+            display: block;
+            width: 100%;
+            margin-top: 12px;
+            padding: 10px;
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-reset:hover {
+            background: #667eea;
+            color: white;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Strumento Modifica File PNDNavigator</h1>
+        <h1>PND Navigator Patcher</h1>
+        <p class="subtitle">Patch automatico per navigatori GPS Renault</p>
         
-        <div class="step">
-            <h2>Step 1: Scarica e installa HxD</h2>
-            <p>Scarica HxD da <a href="https://mh-nexus.de/en/hxd/" target="_blank">questo link</a> e installalo sul tuo computer.</p>
-            <button onclick="downloadHxD()">Scarica HxD</button>
+        <div class="drop-zone" id="dropZone">
+            <div class="drop-zone-icon">📦</div>
+            <div class="drop-zone-text">Trascina qui il file ZIP</div>
+            <div class="drop-zone-hint">oppure clicca per selezionare</div>
         </div>
-
-        <div class="step">
-            <h2>Step 2: Carica il file PNDNavigator</h2>
-            <input type="file" id="pndFile" accept=".bin,.exe">
+        <input type="file" id="fileInput" accept=".zip">
+        
+        <div class="progress" id="progress">
+            <div class="progress-bar">
+                <div class="progress-bar-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Elaborazione in corso...</div>
         </div>
-
-        <div class="step">
-            <h2>Step 3: Trova e modifica l'indirizzo</h2>
-            <p>Indirizzo da cercare: <strong>x00402920</strong></p>
-            <p>Byte da sostituire: <strong>D6</strong> → <strong>B9</strong></p>
-            <button onclick="findAndEdit()" disabled id="editBtn">Cerca e Modifica</button>
+        
+        <div class="result" id="result">
+            <div class="result-icon" id="resultIcon"></div>
+            <div class="result-title" id="resultTitle"></div>
+            <div class="result-message" id="resultMessage"></div>
+            <button class="btn-download" id="btnDownload" style="display:none;">Scarica ZIP Modificato</button>
+            <button class="btn-reset" id="btnReset">Elabora un altro file</button>
         </div>
-
-        <div class="step important">
-            <h2>⚠️ Attenzione ⚠️</h2>
-            <p>Dopo la modifica, salva il file modificato nella <strong>root della scheda SD</strong> e inseriscila nel navigatore GPS del veicolo Renault.</p>
-        </div>
-
-        <div id="fileOutput"></div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script>
-        document.getElementById('pndFile').addEventListener('change', function(e) {
-            const editBtn = document.getElementById('editBtn');
-            if (e.target.files.length > 0) {
-                editBtn.disabled = false;
-            } else {
-                editBtn.disabled = true;
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const progress = document.getElementById('progress');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const result = document.getElementById('result');
+        const resultIcon = document.getElementById('resultIcon');
+        const resultTitle = document.getElementById('resultTitle');
+        const resultMessage = document.getElementById('resultMessage');
+        const btnDownload = document.getElementById('btnDownload');
+        const btnReset = document.getElementById('btnReset');
+
+        let patchedBlob = null;
+
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
             }
         });
 
-        function downloadHxD() {
-            window.open('https://mh-nexus.de/downloads/HxDSetup.zip', '_blank');
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        btnReset.addEventListener('click', () => {
+            dropZone.style.display = 'block';
+            progress.style.display = 'none';
+            result.style.display = 'none';
+            fileInput.value = '';
+            patchedBlob = null;
+        });
+
+        btnDownload.addEventListener('click', () => {
+            if (patchedBlob) {
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(patchedBlob);
+                a.download = 'PNDNavigator_patched.zip';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+        });
+
+        async function handleFile(file) {
+            if (!file.name.toLowerCase().endsWith('.zip')) {
+                showError('Errore: Il file deve essere un archivio ZIP');
+                return;
+            }
+
+            dropZone.style.display = 'none';
+            progress.style.display = 'block';
+            result.style.display = 'none';
+
+            try {
+                setProgress(10, 'Lettura archivio ZIP...');
+                const zip = new JSZip();
+                const zipContent = await zip.loadAsync(file);
+
+                setProgress(30, 'Ricerca file PNDNavigator...');
+                
+                let pndFile = null;
+                let pndFileName = null;
+                
+                for (const [filename, zipEntry] of Object.entries(zipContent.files)) {
+                    if (!zipEntry.dir && filename.toLowerCase().includes('pndnavigator')) {
+                        pndFile = zipEntry;
+                        pndFileName = filename;
+                        break;
+                    }
+                }
+
+                if (!pndFile) {
+                    throw new Error('File PNDNavigator non trovato nell\'archivio ZIP');
+                }
+
+                setProgress(50, 'Estrazione file PNDNavigator...');
+                const fileData = await pndFile.async('uint8array');
+
+                setProgress(70, 'Applicazione patch...');
+                const targetOffset = 0x2920;
+                
+                if (targetOffset >= fileData.length) {
+                    throw new Error(`Offset 0x${targetOffset.toString(16)} fuori dai limiti del file`);
+                }
+
+                const originalByte = fileData[targetOffset];
+                
+                if (originalByte === 0xD6) {
+                    fileData[targetOffset] = 0xB9;
+                    
+                    setProgress(85, 'Ricostruzione archivio ZIP...');
+                    const newZip = new JSZip();
+                    
+                    for (const [filename, zipEntry] of Object.entries(zipContent.files)) {
+                        if (filename === pndFileName) {
+                            newZip.file(filename, fileData);
+                        } else if (!zipEntry.dir) {
+                            const content = await zipEntry.async('uint8array');
+                            newZip.file(filename, content);
+                        }
+                    }
+                    
+                    setProgress(95, 'Generazione file finale...');
+                    patchedBlob = await newZip.generateAsync({
+                        type: 'blob',
+                        compression: 'DEFLATE',
+                        compressionOptions: { level: 6 }
+                    });
+                    
+                    setProgress(100, 'Completato!');
+                    
+                    setTimeout(() => {
+                        showSuccess(
+                            'Patch applicata con successo',
+                            `File: ${pndFileName}<br>` +
+                            `Offset: 0x${targetOffset.toString(16).toUpperCase()}<br>` +
+                            `Byte modificato: 0xD6 → 0xB9`
+                        );
+                    }, 300);
+                    
+                } else {
+                    throw new Error(
+                        `Byte all'offset 0x${targetOffset.toString(16)} è 0x${originalByte.toString(16).toUpperCase()}, non 0xD6. ` +
+                        `Il file potrebbe essere già stato modificato.`
+                    );
+                }
+
+            } catch (error) {
+                showError('Errore: ' + error.message);
+            }
         }
 
-        function findAndEdit() {
-            const fileInput = document.getElementById('pndFile');
-            const file = fileInput.files[0];
-            const reader = new FileReader();
+        function setProgress(percent, text) {
+            progressFill.style.width = percent + '%';
+            progressText.textContent = text;
+        }
 
-            reader.onload = function(e) {
-                try {
-                    const arrayBuffer = e.target.result;
-                    const uint8Array = new Uint8Array(arrayBuffer);
+        function showSuccess(title, message) {
+            progress.style.display = 'none';
+            result.className = 'result success';
+            result.style.display = 'block';
+            resultIcon.textContent = '✅';
+            resultTitle.textContent = title;
+            resultMessage.innerHTML = message;
+            btnDownload.style.display = 'block';
+        }
 
-                    // Cerca l'indirizzo 0x00402920
-                    // In un file eseguibile, questo è un indirizzo virtuale
-                    // Per semplicità, cerchiamo il pattern di bytes
-                    const targetAddress = 0x402920;
-                    
-                    // Converti l'indirizzo in offset nel file (euristica)
-                    // Tipicamente per PE files, l'offset potrebbe essere address - 0x400000
-                    let offset = targetAddress - 0x400000;
-                    
-                    if (offset >= 0 && offset < uint8Array.length) {
-                        if (uint8Array[offset] === 0xD6) {
-                            // Sostituisci il byte
-                            uint8Array[offset] = 0xB9;
-                            
-                            // Crea un blob con i dati modificati
-                            const blob = new Blob([uint8Array], {type: 'application/octet-stream'});
-                            const url = URL.createObjectURL(blob);
-                            
-                            // Crea un link per scaricare il file modificato
-                            const a = document.createElement('a');
-                            a.href = url;
-                            a.download = 'PNDNavigator_modified';
-                            document.body.appendChild(a);
-                            a.click();
-                            document.body.removeChild(a);
-                            
-                            document.getElementById('fileOutput').innerHTML = "✅ File modificato con successo!\n" +
-                                "Offset: 0x" + offset.toString(16) + "\n" +
-                                "Byte originale: 0xD6 → Nuovo byte: 0xB9\n\n" +
-                                "Il file è stato salvato come 'PNDNavigator_modified'.\n" +
-                                "⚠️ Rinominalo nel formato originale e sostituisci il file nella root della scheda SD.";
-                        } else {
-                            document.getElementById('fileOutput').innerHTML = "❌ Il byte all'offset calcolato (0x" + offset.toString(16) + 
-                                ") è 0x" + uint8Array[offset].toString(16).toUpperCase() + 
-                                ", non 0xD6.\n\nIl file potrebbe essere già stato modificato o non essere quello corretto.";
-                        }
-                    } else {
-                        document.getElementById('fileOutput').innerHTML = "❌ Offset calcolato fuori dai limiti del file.\n" +
-                            "Dimensione file: " + uint8Array.length + " bytes\n" +
-                            "Offset calcolato: 0x" + offset.toString(16);
-                    }
-
-                } catch (error) {
-                    document.getElementById('fileOutput').innerHTML = "❌ Errore durante l'elaborazione del file: " + error.message;
-                }
-            };
-
-            reader.onerror = function() {
-                document.getElementById('fileOutput').innerHTML = "❌ Errore durante la lettura del file.";
-            };
-
-            reader.readAsArrayBuffer(file);
+        function showError(message) {
+            progress.style.display = 'none';
+            result.className = 'result error';
+            result.style.display = 'block';
+            resultIcon.textContent = '❌';
+            resultTitle.textContent = 'Errore';
+            resultMessage.textContent = message;
+            btnDownload.style.display = 'none';
         }
     </script>
 </body>
