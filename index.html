@@ -253,6 +253,33 @@
             }
         });
 
+        async function searchPNDNavigator(zipContent, basePath = '') {
+            for (const [filename, zipEntry] of Object.entries(zipContent.files)) {
+                const fullPath = basePath + filename;
+                
+                if (!zipEntry.dir) {
+                    const nameLower = filename.toLowerCase();
+                    const basenameLower = filename.split('/').pop().toLowerCase();
+                    
+                    if (basenameLower.includes('pndnavigator') && !nameLower.endsWith('.zip')) {
+                        return { file: zipEntry, path: fullPath };
+                    }
+                    
+                    if (nameLower.endsWith('.zip')) {
+                        try {
+                            const nestedZipData = await zipEntry.async('uint8array');
+                            const nestedZip = await JSZip.loadAsync(nestedZipData);
+                            const result = await searchPNDNavigator(nestedZip, fullPath + ' > ');
+                            if (result) return result;
+                        } catch (e) {
+                            // Skip invalid nested ZIPs
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
         async function handleFile(file) {
             if (!file.name.toLowerCase().endsWith('.zip')) {
                 showError('Errore: Il file deve essere un archivio ZIP');
@@ -268,22 +295,16 @@
                 const zip = new JSZip();
                 const zipContent = await zip.loadAsync(file);
 
-                setProgress(30, 'Ricerca file PNDNavigator...');
+                setProgress(30, 'Ricerca file PNDNavigator (anche in ZIP annidati)...');
                 
-                let pndFile = null;
-                let pndFileName = null;
-                
-                for (const [filename, zipEntry] of Object.entries(zipContent.files)) {
-                    if (!zipEntry.dir && filename.toLowerCase().includes('pndnavigator')) {
-                        pndFile = zipEntry;
-                        pndFileName = filename;
-                        break;
-                    }
-                }
+                const searchResult = await searchPNDNavigator(zipContent);
 
-                if (!pndFile) {
-                    throw new Error('File PNDNavigator non trovato nell\'archivio ZIP');
+                if (!searchResult) {
+                    throw new Error('File PNDNavigator non trovato nell\'archivio ZIP (controllato anche in sottocartelle e ZIP annidati)');
                 }
+                
+                const pndFile = searchResult.file;
+                const pndFileName = searchResult.path;
 
                 setProgress(50, 'Estrazione file PNDNavigator...');
                 const fileData = await pndFile.async('uint8array');
