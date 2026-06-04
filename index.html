@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -18,8 +18,8 @@
         }
 
         body {
-            font-family: 'Courier New', 'Menlo', monospace;
-            background: #0a0a0f;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #f5f6f8;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -28,52 +28,47 @@
         }
 
         .container {
-            background: #14141e;
-            border-radius: 12px;
-            border: 1px solid rgba(0, 240, 255, 0.15);
-            box-shadow: 0 0 40px rgba(0, 240, 255, 0.08), inset 0 0 40px rgba(0, 0, 0, 0.5);
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
             max-width: 600px;
             width: 100%;
             padding: 40px;
         }
 
         h1 {
-            color: #00f0ff;
+            color: #1a1a2e;
             font-size: 28px;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             text-align: center;
-            text-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
-            letter-spacing: 2px;
+            font-weight: 700;
         }
 
         .subtitle {
-            color: #8888aa;
+            color: #6b7280;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
             font-size: 14px;
-            letter-spacing: 1px;
         }
 
         .drop-zone {
-            border: 2px dashed #ff2d95;
+            border: 2px dashed #d1d5db;
             border-radius: 12px;
             padding: 60px 20px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            background: #1a1a2e;
+            background: #fafbfc;
         }
 
         .drop-zone:hover {
-            border-color: #00f0ff;
-            background: #1e1e3a;
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.15);
+            border-color: #4a9eff;
+            background: #f0f5ff;
         }
 
         .drop-zone.dragover {
-            border-color: #00f0ff;
-            background: #1e1e3a;
-            box-shadow: 0 0 40px rgba(0, 240, 255, 0.25);
+            border-color: #4a9eff;
+            background: #e8f0fe;
             transform: scale(1.02);
         }
 
@@ -83,13 +78,13 @@
         }
 
         .drop-zone-text {
-            color: #c0c0e0;
+            color: #374151;
             font-size: 16px;
             margin-bottom: 8px;
         }
 
         .drop-zone-hint {
-            color: #666688;
+            color: #9ca3af;
             font-size: 13px;
         }
 
@@ -105,22 +100,21 @@
         .progress-bar {
             width: 100%;
             height: 8px;
-            background: #1a1a2e;
+            background: #e5e7eb;
             border-radius: 4px;
             overflow: hidden;
-            border: 1px solid rgba(0, 240, 255, 0.1);
         }
 
         .progress-bar-fill {
             height: 100%;
-            background: linear-gradient(90deg, #00f0ff, #ff2d95);
+            background: linear-gradient(90deg, #4a9eff, #f18016);
             width: 0%;
             transition: width 0.3s ease;
         }
 
         .progress-text {
             margin-top: 12px;
-            color: #8888aa;
+            color: #6b7280;
             font-size: 14px;
             text-align: center;
         }
@@ -133,31 +127,29 @@
         }
 
         .result.success {
-            background: rgba(0, 255, 136, 0.08);
-            border: 1px solid #00ff88;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+            background: #ecfdf5;
+            border: 1px solid #6ee7b7;
         }
 
         .result.success .result-title {
-            color: #00ff88;
+            color: #059669;
         }
 
         .result.success .result-message {
-            color: #88ddbb;
+            color: #6b7280;
         }
 
         .result.error {
-            background: rgba(255, 45, 149, 0.08);
-            border: 1px solid #ff2d95;
-            box-shadow: 0 0 20px rgba(255, 45, 149, 0.1);
+            background: #fef2f2;
+            border: 1px solid #fca5a5;
         }
 
         .result.error .result-title {
-            color: #ff2d95;
+            color: #dc2626;
         }
 
         .result.error .result-message {
-            color: #dd88aa;
+            color: #6b7280;
         }
 
         .result-icon {
@@ -183,7 +175,7 @@
             width: 100%;
             margin-top: 16px;
             padding: 12px;
-            background: linear-gradient(135deg, #00f0ff, #ff2d95);
+            background: linear-gradient(135deg, #4a9eff, #f18016);
             color: white;
             border: none;
             border-radius: 8px;
@@ -191,13 +183,10 @@
             font-weight: 600;
             cursor: pointer;
             transition: opacity 0.2s ease;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-            letter-spacing: 1px;
         }
 
         .btn-download:hover {
-            opacity: 0.85;
-            box-shadow: 0 0 20px rgba(255, 45, 149, 0.3);
+            opacity: 0.9;
         }
 
         .btn-reset {
@@ -206,8 +195,8 @@
             margin-top: 12px;
             padding: 10px;
             background: transparent;
-            color: #8888aa;
-            border: 1px solid #333355;
+            color: #6b7280;
+            border: 1px solid #d1d5db;
             border-radius: 8px;
             font-size: 14px;
             font-weight: 500;
@@ -216,27 +205,56 @@
         }
 
         .btn-reset:hover {
-            background: #1a1a2e;
-            border-color: #5555aa;
-            color: #aaaacc;
+            background: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+        .branding {
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .branding img {
+            max-width: 80px;
+            /* opacity: 0.5;
+            transition: opacity 0.3s; */
+        }
+
+        /* .branding img:hover {
+            opacity: 0.8;
+        } */
+
+        .branding p {
+            margin-top: 6px;
+            font-size: 10px;
+            color: #9ca3af;
+            line-height: 1.5;
         }
     </style>
 </head>
 
 <body>
-    <a href="https://github.com/paraflu/pnd-navigator-tool" target="_blank" rel="noopener" style="position:fixed;top:16px;right:16px;z-index:100;transition:opacity 0.2s;" aria-label="View source on GitHub">
-        <svg width="32" height="32" viewBox="0 0 16 16" fill="#c0c0e0">
-            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+    <a href="https://github.com/paraflu/pnd-navigator-tool" target="_blank" rel="noopener"
+        style="position:fixed;top:16px;right:16px;z-index:100;transition:opacity 0.2s;"
+        aria-label="View source on GitHub">
+        <svg width="32" height="32" viewBox="0 0 16 16" fill="#6b7280">
+            <path
+                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
         </svg>
     </a>
     <div class="container">
         <h1>PND Navigator Patcher</h1>
-        <p class="subtitle">Patch automatico per navigatori GPS Renault</p>
+        <p class="subtitle">Automatic patcher for Renault GPS navigators</p>
+
+        <div class="branding">
+            <img src="assets/image.png" alt="Renault">
+            <p>We are not affiliated with Renault in any way.</p>
+        </div>
 
         <div class="drop-zone" id="dropZone">
             <div class="drop-zone-icon">📦</div>
-            <div class="drop-zone-text">Trascina qui il file ZIP</div>
-            <div class="drop-zone-hint">oppure clicca per selezionare</div>
+            <div class="drop-zone-text">Drop your ZIP file here</div>
+            <div class="drop-zone-hint">or click to select</div>
         </div>
         <input type="file" id="fileInput" accept=".zip">
 
@@ -244,19 +262,20 @@
             <div class="progress-bar">
                 <div class="progress-bar-fill" id="progressFill"></div>
             </div>
-            <div class="progress-text" id="progressText">Elaborazione in corso...</div>
+            <div class="progress-text" id="progressText">Processing...</div>
         </div>
 
         <div class="result" id="result">
             <div class="result-icon" id="resultIcon"></div>
             <div class="result-title" id="resultTitle"></div>
             <div class="result-message" id="resultMessage"></div>
-            <button class="btn-download" id="btnDownload" style="display:none;">Scarica ZIP Modificato</button>
-            <button class="btn-reset" id="btnReset">Elabora un altro file</button>
+            <button class="btn-download" id="btnDownload" style="display:none;">Download Patched ZIP</button>
+            <button class="btn-reset" id="btnReset">Process another file</button>
         </div>
-        <p style="margin-top:20px;font-size:11px;color:#555577;text-align:center;line-height:1.5;">
-            <strong>Disclaimer:</strong> Questo strumento è fornito "così com'è", senza garanzia alcuna.<br>
-            L'utilizzo è a completo rischio dell'utente. L'autore declina ogni responsabilità per danni diretti o indiretti derivanti dall'uso di questo software.
+        <p style="margin-top:16px;font-size:11px;color:#9ca3af;text-align:center;line-height:1.5;">
+            <strong>Disclaimer:</strong> This tool is provided "as is" without warranty of any kind.<br>
+            Use at your own risk. The author assumes no responsibility for any damage resulting from the use of this
+            software.
         </p>
     </div>
 
@@ -350,7 +369,7 @@
 
         async function handleFile(file) {
             if (!file.name.toLowerCase().endsWith('.zip')) {
-                showError('Errore: Il file deve essere un archivio ZIP');
+                showError('Error: File must be a ZIP archive');
                 return;
             }
 
@@ -359,29 +378,29 @@
             result.style.display = 'none';
 
             try {
-                setProgress(10, 'Lettura archivio ZIP...');
+                setProgress(10, 'Reading ZIP archive...');
                 const zip = new JSZip();
                 const zipContent = await zip.loadAsync(file);
 
-                setProgress(30, 'Ricerca file PNDNavigator (anche in ZIP annidati)...');
+                setProgress(30, 'Searching for PNDNavigator file (including nested ZIPs)...');
 
                 const searchResult = await searchPNDNavigator(zipContent);
 
                 if (!searchResult) {
-                    throw new Error('File PNDNavigator non trovato nell\'archivio ZIP (controllato anche in sottocartelle e ZIP annidati)');
+                    throw new Error('PNDNavigator file not found in ZIP archive (checked subfolders and nested ZIPs)');
                 }
 
                 const pndFile = searchResult.file;
                 const pndFileName = searchResult.path;
 
-                setProgress(50, 'Estrazione file PNDNavigator...');
+                setProgress(50, 'Extracting PNDNavigator file...');
                 const fileData = await pndFile.async('uint8array');
 
                 setProgress(70, 'Applicazione patch...');
                 const targetOffset = 0x00402928;
 
                 if (targetOffset >= fileData.length) {
-                    throw new Error(`Offset 0x${targetOffset.toString(16)} fuori dai limiti del file`);
+                    throw new Error(`Offset 0x${targetOffset.toString(16)} is out of file bounds`);
                 }
 
                 const originalByte = fileData[targetOffset];
@@ -389,7 +408,7 @@
                 if (originalByte === 0xD6) {
                     fileData[targetOffset] = 0xB9;
 
-                    setProgress(85, 'Ricostruzione archivio ZIP...');
+                    setProgress(85, 'Rebuilding ZIP archive...');
 
                     async function rebuildZip(zip, targetSegments) {
                         const out = new JSZip();
@@ -417,33 +436,33 @@
                     const segments = pndFileName.split(' > ');
                     const rebuilt = await rebuildZip(zipContent, segments);
 
-                    setProgress(95, 'Generazione file finale...');
+                    setProgress(95, 'Generating final file...');
                     patchedBlob = await rebuilt.generateAsync({
                         type: 'blob',
                         compression: 'DEFLATE',
                         compressionOptions: { level: 6 }
                     });
 
-                    setProgress(100, 'Completato!');
+                    setProgress(100, 'Complete!');
 
                     setTimeout(() => {
                         showSuccess(
-                            'Patch applicata con successo',
+                            'Patch applied successfully',
                             `File: ${pndFileName}<br>` +
                             `Offset: 0x${targetOffset.toString(16).toUpperCase()}<br>` +
-                            `Byte modificato: 0xD6 → 0xB9`
+                            `Byte changed: 0xD6 → 0xB9`
                         );
                     }, 300);
 
                 } else {
                     throw new Error(
-                        `Byte all'offset 0x${targetOffset.toString(16)} è 0x${originalByte.toString(16).toUpperCase()}, non 0xD6. ` +
-                        `Il file potrebbe essere già stato modificato.`
+                        `Byte at offset 0x${targetOffset.toString(16)} is 0x${originalByte.toString(16).toUpperCase()}, expected 0xD6. ` +
+                        `The file may have already been patched.`
                     );
                 }
 
             } catch (error) {
-                showError('Errore: ' + error.message);
+                showError('Error: ' + error.message);
             }
         }
 
@@ -467,20 +486,20 @@
             result.className = 'result error';
             result.style.display = 'block';
             resultIcon.textContent = '❌';
-            resultTitle.textContent = 'Errore';
+            resultTitle.textContent = 'Error';
             resultMessage.textContent = message;
             btnDownload.style.display = 'none';
         }
     </script>
-<script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
-<script>
-  kofiWidgetOverlay.draw('paraflu', {
-    'type': 'floating-chat',
-    'floating-chat.donateButton.text': 'Support me',
-    'floating-chat.donateButton.background-color': '#00b9fe',
-    'floating-chat.donateButton.text-color': '#fff'
-  });
-</script>
+    <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+    <script>
+        kofiWidgetOverlay.draw('paraflu', {
+            'type': 'floating-chat',
+            'floating-chat.donateButton.text': 'Support me',
+            'floating-chat.donateButton.background-color': '#00b9fe',
+            'floating-chat.donateButton.text-color': '#fff'
+        });
+    </script>
 </body>
 
 </html>
